@@ -1,0 +1,92 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
+#    Updated: 2023/05/18 20:13:37 by anvannin         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# Config ---------------------------------------------------------------------->
+
+NAME		:= philo
+SRCS		:=	main.c \
+			usage_msg.c \
+			table.c \
+			philo.c \
+			\
+			libft/ft_strlen.c \
+
+SRC_DIR     := src
+SRCS        := $(SRCS:%=$(SRC_DIR)/%)
+BUILD_DIR   := .build
+OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+DEPS        := $(OBJS:.o=.d)
+INCS        := ./include
+CC          := gcc
+CFLAGS      := -g -Wall -Wextra -Werror
+CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
+RM          := rm -rf
+MAKEFLAGS   := --no-print-directory
+DIR_DUP     = mkdir -p $(@D)
+
+.PHONY: all clean fclean re
+.SILENT:
+
+# Rules ----------------------------------------------------------------------->
+
+all: banner $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -o $(NAME)
+	${info ${BOLD}   Done!   -> ${GREEN}$(NAME)${NO_COLOR}}
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(DIR_DUP)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+	${info ${BOLD} Compiling -> ${YELLOW}$@${NO_COLOR}}
+
+-include $(DEPS)
+
+clean:
+	$(RM) $(BUILD_DIR)
+	${info }
+	${info ${BOLD}${YELLOW}Cleaning in progress...${NO_COLOR}}
+
+fclean: clean
+	$(RM) $(NAME) $(NAME_CLIENT)
+
+re:
+	$(MAKE) fclean
+	$(MAKE) all
+
+# Style ----------------------------------------------------------------------->
+
+RED		:= ${shell tput setaf 1}
+GREEN		:= ${shell tput setaf 2}
+YELLOW	:= ${shell tput setaf 3}
+BLUE		:= ${shell tput setaf 4}
+MAGENTA	:= ${shell tput setaf 5}
+NO_COLOR	:= ${shell tput sgr0}
+BOLD		:= ${shell tput bold}
+
+banner:
+
+${info ${RED}}
+${info  ██▓███   ██░ ██  ██▓ ██▓     ▒█████    ██████  ▒█████   ██▓███   ██░ ██ ▓█████  ██▀███    ██████ }
+${info ▓██░  ██▒▓██░ ██▒▓██▒▓██▒    ▒██▒  ██▒▒██    ▒ ▒██▒  ██▒▓██░  ██▒▓██░ ██▒▓█   ▀ ▓██ ▒ ██▒▒██    ▒ }
+${info ▓██░ ██▓▒▒██▀▀██░▒██▒▒██░    ▒██░  ██▒░ ▓██▄   ▒██░  ██▒▓██░ ██▓▒▒██▀▀██░▒███   ▓██ ░▄█ ▒░ ▓██▄   }
+${info ▒██▄█▓▒ ▒░▓█ ░██ ░██░▒██░    ▒██   ██░  ▒   ██▒▒██   ██░▒██▄█▓▒ ▒░▓█ ░██ ▒▓█  ▄ ▒██▀▀█▄    ▒   ██▒}
+${info ▒██▒ ░  ░░▓█▒░██▓░██░░██████▒░ ████▓▒░▒██████▒▒░ ████▓▒░▒██▒ ░  ░░▓█▒░██▓░▒████▒░██▓ ▒██▒▒██████▒▒}
+${info ▒▓▒░ ░  ░ ▒ ░░▒░▒░▓  ░ ▒░▓  ░░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░░ ▒░▒░▒░ ▒▓▒░ ░  ░ ▒ ░░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░▒ ▒▓▒ ▒ ░}
+${info ░▒ ░      ▒ ░▒░ ░ ▒ ░░ ░ ▒  ░  ░ ▒ ▒░ ░ ░▒  ░ ░  ░ ▒ ▒░ ░▒ ░      ▒ ░▒░ ░ ░ ░  ░  ░▒ ░ ▒░░ ░▒  ░ ░}
+${info ░░        ░  ░░ ░ ▒ ░  ░ ░   ░ ░ ░ ▒  ░  ░  ░  ░ ░ ░ ▒  ░░        ░  ░░ ░   ░     ░░   ░ ░  ░  ░  }
+${info           ░  ░  ░ ░      ░  ░    ░ ░        ░      ░ ░            ░  ░  ░   ░  ░   ░           ░  }
+${info                                                                                                   }
+${info ${BOLD}${YELLOW}			I never thought philosophy would be so deadly}
+${info ${NO_COLOR}}
+
+# ------------------------------------------------------------------------------
