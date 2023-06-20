@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:24 by anvannin          #+#    #+#             */
-/*   Updated: 2023/05/18 20:13:56 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:55:38 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 
 int	main(int argc, char **argv)
 {
-	t_table	*table;
-	t_philo	**philos;
+	t_table		table;
+	t_waiter	waiter;
+	t_philo		*philos;
+	t_fork		*forks;
 
-	if (argc != 5 && argc != 6)
-		return (usage_msg());
-
-	// table_init();
-	// philo_init();
-
-	printf("number_of_philosopher: %s\n", argv[1]);
-	printf("time_to_die: %s\n", argv[2]);
-	printf("time_to_eat: %s\n", argv[3]);
-	printf("time_to_sleep: %s\n", argv[4]);
-	if (argc == 6)
-		printf("number_of_times_each_philosopher_must_eat: %s\n", argv[5]);
+	if (arg_check(argc, argv))
+		return (0);
+	table_init(&table, argv);
+	if (!waiter_init(&waiter, table))
+		return (printf("%sError: Waiter not found (Mutex)%s\n", RED, UNSET));
+	if (!philo_init(&waiter, &philos, &forks))
+		return (printf("%sError: Philo not found (Thread)%s\n", RED, UNSET));
+	print_table(&table);
+	bombfreeall(&philos, &forks, &waiter);
 	return (0);
 }

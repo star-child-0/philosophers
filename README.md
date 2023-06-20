@@ -12,8 +12,11 @@ _I never thought philosophy would be so deadly._
 	<img alt="anvannin's 42 philosophers Score" src="https://badge42.vercel.app/api/v2/cleh36s9k00060fmefi6qv520/project/3036876">
 </p>
 
+## 📖 Overview
 
 This project is an implementation of the famous Dining Philosophers Problem in C. The Dining Philosophers Problem is a classic synchronization problem in computer science, where a group of philosophers sit at a table and eat spaghetti. There are as many forks on the table as the number of philosophers, and each philosopher needs two forks to eat. The problem is to design a solution where the philosophers can eat without getting into a deadlock.
+
+Developed in accordance with the [subject](https://cdn.intra.42.fr/pdf/pdf/65661/en.subject.pdf) (Version 10)
 
 ## ⚙️ Installation
 

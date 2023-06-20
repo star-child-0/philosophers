@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   waiter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 19:18:48 by anvannin          #+#    #+#             */
-/*   Updated: 2023/05/18 19:38:28 by anvannin         ###   ########.fr       */
+/*   Created: 2023/06/20 19:29:42 by anvannin          #+#    #+#             */
+/*   Updated: 2023/06/20 19:34:41 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
-int	ft_strlen(const char *str)
+int	waiter_init(t_waiter *waiter, t_table table)
 {
-	int	i;
-
-	i = 0;
-	if (!str)
+	waiter->table = table;
+	waiter->safe = 1;
+	if (pthread_mutex_init(&waiter->print_mx, NULL))
 		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	if (pthread_mutex_init(&waiter->death_mx, NULL))
+		return (0);
+	if (pthread_mutex_init(&waiter->philo_mx, NULL))
+		return (0);
+	return (1);
 }
