@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/20 20:05:27 by anvannin         ###   ########.fr        #
+#    Updated: 2023/06/20 21:37:55 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@
 
 NAME		:= philo
 SRCS		:=	main.c \
-			utils.c\
-			table.c\
-			philo.c\
-			waiter.c\
+			utils.c \
+			table.c \
+			philo.c \
+			waiter.c \
 
 SRC_DIR     := src
 SRCS        := $(SRCS:%=$(SRC_DIR)/%)
@@ -71,6 +71,8 @@ BLUE		:= ${shell tput setaf 4}
 MAGENTA	:= ${shell tput setaf 5}
 NO_COLOR	:= ${shell tput sgr0}
 BOLD		:= ${shell tput bold}
+UNDERLINE	:= ${shell tput smul}
+ITALIC	:= ${shell tput sitm}
 
 banner:
 
@@ -85,7 +87,7 @@ ${info ░▒ ░      ▒ ░▒░ ░ ▒ ░░ ░ ▒  ░  ░ ▒ ▒░
 ${info ░░        ░  ░░ ░ ▒ ░  ░ ░   ░ ░ ░ ▒  ░  ░  ░  ░ ░ ░ ▒  ░░        ░  ░░ ░   ░     ░░   ░ ░  ░  ░   }
 ${info           ░  ░  ░ ░      ░  ░    ░ ░        ░      ░ ░            ░  ░  ░   ░  ░   ░           ░   }
 ${info                                                                                                    }
-${info ${BOLD}${YELLOW}                        🍝 I never thought philosophy would be so deadly 🍝}
+${info ${BOLD}${ITALIC}${YELLOW}                        🍝 I never thought philosophy would be so deadly 🍝}
 ${info ${NO_COLOR}}
 
 # ------------------------------------------------------------------------------

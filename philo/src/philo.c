@@ -6,11 +6,24 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:07:17 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/20 19:39:36 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:35:14 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	*philo_routine(void *arg)
+{
+	return (NULL);
+}
+
+int	philo_create_thread(int i, t_philo **philo)
+{
+	if (pthread_create(&(*philo)[i].thread, NULL, philo_routine,
+		&(*philo)[i]))
+		return (0);
+	return (1);
+}
 
 int	philo_init(t_waiter *waiter, t_philo **philos, t_fork **forks)
 {
@@ -23,10 +36,8 @@ int	philo_init(t_waiter *waiter, t_philo **philos, t_fork **forks)
 		return (0);
 	while (i < waiter->table.philo_count)
 	{
-		(*philos)[i].index = i;
+		(*philos)[i].id = i;
 		(*philos)[i].times_eaten = 0;
-		(*philos)[i].pid = 0;
-		(*philos)[i].table = &waiter->table;
 		if (pthread_mutex_init(&(*forks)[i].fork_mx, NULL))
 			return (0);
 		i++;

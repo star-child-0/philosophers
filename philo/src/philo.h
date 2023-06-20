@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/20 20:14:45 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:38:55 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@
 # include <pthread.h>
 # include <limits.h>
 
+# define TILLDEATH -1
+
 # define RED "\033[0;31m"
+# define REDBOLD "\033[1;31m"
 # define GREEN "\033[0;32m"
+# define GREENBOLD "\033[1;32m"
 # define YELLOW "\033[0;33m"
+# define YELLOWBOLD "\033[1;33m"
 # define BLUE "\033[0;34m"
+# define BLUEBOLD "\033[1;34m"
 # define UNSET "\033[0m"
+# define BOLD "\033[1m"
+# define UNDERLINE "\033[4m"
+# define ITALIC "\033[3m"
 
 typedef struct s_fork
 {
@@ -51,25 +60,30 @@ typedef struct s_waiter
 
 typedef struct s_philo
 {
-	int		index;
-	int		times_eaten;
-	int		pid;
-	t_table	*table;
+	int			id;
+	int			times_eaten;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+	t_waiter	*waiter;
+	pthread_t	thread;
 }t_philo;
 
 // UTILS ---------------------------------------------------------------->
 int		arg_check(int ac, char **av);
-void	bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter);
 int		ft_atoi(char *str);
-void	print_table(t_table *table);
+void	create_threads(t_waiter *waiter, t_philo **philos);
+void	bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter);
 
 // PHILO ---------------------------------------------------------------------->
 int		philo_init(t_waiter *waiter, t_philo **philos, t_fork **forks);
+int		philo_create_thread(int i, t_philo **philo);
 
 // TABLE ---------------------------------------------------------------------->
 void	table_init(t_table *table, char **argv);
+void	print_table(t_table *table);
 
 // WAITER --------------------------------------------------------------------->
 int		waiter_init(t_waiter *waiter, t_table table);
+int		waiter_create_thread(t_waiter *waiter);
 
 #endif
