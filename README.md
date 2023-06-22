@@ -1,6 +1,12 @@
 # 🍝 Philosophers
 
-_I never thought philosophy would be so deadly._
+<p align="center" style="font-style:italic">
+I never thought philosophy would be so deadly.
+</p>
+
+## 📖 Overview
+
+This project is an implementation of the famous Dining Philosophers Problem in C. The Dining Philosophers Problem is a classic synchronization problem in computer science, where a group of philosophers sit at a table and eat spaghetti. There are as many forks on the table as the number of philosophers, and each philosopher needs two forks to eat. The problem is to design a solution where the philosophers can eat without getting into a deadlock.
 
 <p align="center">
 	<img alt="anvannin's 42 philosophers languages" src="https://img.shields.io/github/languages/top/star-child-0/philosophers?color=red">
@@ -9,14 +15,9 @@ _I never thought philosophy would be so deadly._
 </p>
 
 <p align="center">
+	<a href="https://cdn.intra.42.fr/pdf/pdf/65661/en.subject.pdf"><img alt="Static Badge" src="https://img.shields.io/badge/Subject-v.10-teal" link="https://cdn.intra.42.fr/pdf/pdf/65661/en.subject.pdf"></a>
 	<img alt="anvannin's 42 philosophers Score" src="https://badge42.vercel.app/api/v2/cleh36s9k00060fmefi6qv520/project/3036876">
 </p>
-
-## 📖 Overview
-
-This project is an implementation of the famous Dining Philosophers Problem in C. The Dining Philosophers Problem is a classic synchronization problem in computer science, where a group of philosophers sit at a table and eat spaghetti. There are as many forks on the table as the number of philosophers, and each philosopher needs two forks to eat. The problem is to design a solution where the philosophers can eat without getting into a deadlock.
-
-Developed in accordance with the [subject](https://cdn.intra.42.fr/pdf/pdf/65661/en.subject.pdf) (Version 10)
 
 ## ⚙️ Installation
 
@@ -59,7 +60,6 @@ or, for the bonus part:
 - `time_to_eat`: The time in milliseconds it takes for a philosopher to eat.
 - `time_to_sleep`: The time in milliseconds the philosopher will spend sleeping after they finish eating.
 - `number_of_times_each_philosopher_must_eat`: The number of times each philosopher must eat. If this argument is not provided, the program will stop only when a philosopher dies.
-
 
 ## ✅ Mandatory part
 
