@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/20 21:37:55 by anvannin         ###   ########.fr        #
+#    Updated: 2023/06/24 17:12:32 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@
 NAME		:= philo
 SRCS		:=	main.c \
 			utils.c \
+			threads.c \
+			time.c \
 			table.c \
 			philo.c \
 			waiter.c \
@@ -29,7 +31,6 @@ CC          := gcc
 CFLAGS      := -g -Wall -Wextra -Werror
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 RM          := rm -rf
-MAKEFLAGS   := --no-print-directory
 DIR_DUP     = mkdir -p $(@D)
 
 .PHONY: all clean fclean re
@@ -40,7 +41,7 @@ DIR_DUP     = mkdir -p $(@D)
 all: banner $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) -pthread
 	${info ${BOLD}   Done!   -> ${GREEN}$(NAME)${NO_COLOR}}
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

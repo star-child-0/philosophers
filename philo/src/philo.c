@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:07:17 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/20 21:35:14 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:42:14 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 static void	*philo_routine(void *arg)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	printf("%s [%d] philo %d created%s\n", BLUE, timer(ft_gettime(),
+			philo->last_eat), philo->id, UNSET);
+	usleep(50);
 	return (NULL);
 }
 
@@ -36,7 +42,8 @@ int	philo_init(t_waiter *waiter, t_philo **philos, t_fork **forks)
 		return (0);
 	while (i < waiter->table.philo_count)
 	{
-		(*philos)[i].id = i;
+		(*philos)[i].id = i + 1;
+		(*philos)[i].last_eat = 0;
 		(*philos)[i].times_eaten = 0;
 		if (pthread_mutex_init(&(*forks)[i].fork_mx, NULL))
 			return (0);

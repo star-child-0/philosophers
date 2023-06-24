@@ -67,7 +67,7 @@ The solution is implemented using mutexes and threads. Each philosopher is a thr
 
 ## ⭐ Bonus part
 
-The solution is implemented using semaphores and threads. Each philosopher is a thread, and each fork is a semaphore. The program is designed ...
+The solution is implemented using semaphores. Each philosopher is a process, each fork is put in the middle of the table, and a philosopher will look for available forks by checking a semaphore. The program is designed ...
 
 ## 🤝 Contributing
 

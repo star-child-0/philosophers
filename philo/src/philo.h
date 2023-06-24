@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/20 21:38:55 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:52:09 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
-# include <limits.h>
+# include <sys/time.h>
+# include <stdbool.h>
 
 # define TILLDEATH -1
 
@@ -51,7 +52,7 @@ typedef struct s_table
 typedef struct s_waiter
 {
 	t_table			table;
-	int				safe;
+	int				alive;
 	pthread_t		waiter;
 	pthread_mutex_t	print_mx;
 	pthread_mutex_t	death_mx;
@@ -62,28 +63,38 @@ typedef struct s_philo
 {
 	int			id;
 	int			times_eaten;
+	int			last_eat;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
 	t_waiter	*waiter;
 	pthread_t	thread;
 }t_philo;
 
-// UTILS ---------------------------------------------------------------->
-int		arg_check(int ac, char **av);
-int		ft_atoi(char *str);
-void	create_threads(t_waiter *waiter, t_philo **philos);
-void	bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter);
+// UTILS ---------------------------------------------------------------------->
+int					arg_check(int ac, char **av);
+int					ft_atoi(char *str);
+void				bombfreeall(t_philo **philos, t_fork **forks,
+						t_waiter *waiter);
+
+// TIME ----------------------------------------------------------------------->
+unsigned long long	ft_gettime(void);
+int					timer(unsigned long long time, int last_eat);
+
+// THREADS -------------------------------------------------------------------->
+void				threads_create(t_waiter *waiter, t_philo **philos);
+void				threads_end(t_waiter *waiter, t_philo **philos);
 
 // PHILO ---------------------------------------------------------------------->
-int		philo_init(t_waiter *waiter, t_philo **philos, t_fork **forks);
-int		philo_create_thread(int i, t_philo **philo);
+int					philo_init(t_waiter *waiter, t_philo **philos,
+						t_fork **forks);
+int					philo_create_thread(int i, t_philo **philo);
 
 // TABLE ---------------------------------------------------------------------->
-void	table_init(t_table *table, char **argv);
-void	print_table(t_table *table);
+void				table_init(t_table *table, char **argv);
+void				print_table(t_table *table);
 
 // WAITER --------------------------------------------------------------------->
-int		waiter_init(t_waiter *waiter, t_table table);
-int		waiter_create_thread(t_waiter *waiter);
+int					waiter_init(t_waiter *waiter, t_table table);
+int					waiter_create_thread(t_waiter *waiter);
 
 #endif
