@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/27 09:45:01 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 19:31:45 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ int	arg_check(int ac, char **av)
 	i = 1;
 	while (++i < ac)
 	{
-		if (ft_atoi(av[i]) < 0)
+		if (ft_atoi(av[i]) <= 0)
 		{
-			printf("%sError: Each argument must be a positive number", RED);
-			printf("within the range of INT_MIN and INT_MAX%s\n", UNSET);
+			printf("%sError: Each argument must be a number greater than 0%s\n",
+				RED, UNSET);
 			return (1);
 		}
 	}
-
 	return (0);
 }
 
@@ -67,29 +66,11 @@ int	ft_atoi(char *str)
 	return (nb * sign);
 }
 
-void	bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter)
+void	bombfreeall(t_philo **philo, t_fork **forks, t_waiter *waiter, t_menu **menu)
 {
-	int	i;
-
-	i = -1;
-	while (++i < waiter->table.philo_count)
-	{
-		pthread_mutex_destroy(&(*forks)[i].fork_mx);
-		pthread_mutex_destroy((*philos)[i].menu->death_mx);
-		free((*philos)[i].menu->death_mx);
-		pthread_mutex_destroy((*philos)[i].menu->time_mx);
-		free((*philos)[i].menu->time_mx);
-		pthread_mutex_destroy((*philos)[i].menu->print_mx);
-		free((*philos)[i].menu->print_mx);
-		pthread_mutex_destroy((*philos)[i].menu->eat_mx);
-		free((*philos)[i].menu->eat_mx);
-		pthread_mutex_destroy((*philos)[i].menu->last_eat_mx);
-		free((*philos)[i].menu->last_eat_mx);
-		free((*philos)[i].menu);
-	}
-	pthread_mutex_destroy(&waiter->print_mx);
-	pthread_mutex_destroy(&waiter->death_mx);
-	pthread_mutex_destroy(&waiter->philo_mx);
-	free(*philos);
-	free(*forks);
+	forks_free(forks, waiter);
+	free(*philo);
+	waiter_free(waiter);
+	free(*menu);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 17:11:22 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/27 11:48:12 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 19:28:39 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ time_t	ft_gettime(void)
 * @return
 	The time elapsed since the last timestamp.
 */
-time_t	ft_timer(time_t last_time, pthread_mutex_t *time_mx)
+time_t	ft_timer(time_t start_time, pthread_mutex_t *time_mx)
 {
 	time_t	elapsed;
 
 	pthread_mutex_lock(time_mx);
 	elapsed = ft_gettime();
 	pthread_mutex_unlock(time_mx);
-	return (elapsed - last_time);
+	return (elapsed - start_time);
 }

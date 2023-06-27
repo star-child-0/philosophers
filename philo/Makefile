@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/27 13:26:46 by anvannin         ###   ########.fr        #
+#    Updated: 2023/06/27 19:02:35 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SRCS		:=	main.c \
 			philo.c \
 			philo_routine.c \
 			waiter.c \
+			menu.c \
+			forks.c \
 
 SRC_DIR     := src
 SRCS        := $(SRCS:%=$(SRC_DIR)/%)
@@ -61,7 +63,7 @@ $(NAME): $(OBJS)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-	${info ${BOLD}$(ECHO)	Compiling -> ${YELLOW}$@${NO_COLOR}}
+	${info ${BOLD}[$(percent)%]	Compiling -> ${YELLOW}$@${NO_COLOR}}
 
 -include $(DEPS)
 
@@ -76,7 +78,7 @@ fclean: clean
 re:
 	$(MAKE) fclean
 	$(MAKE) all
-endif
+
 # Style ----------------------------------------------------------------------->
 
 RED		:= ${shell tput setaf 1}
