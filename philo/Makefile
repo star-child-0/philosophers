@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/24 17:12:32 by anvannin         ###   ########.fr        #
+#    Updated: 2023/06/27 13:26:46 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS		:=	main.c \
 			time.c \
 			table.c \
 			philo.c \
+			philo_routine.c \
 			waiter.c \
 
 SRC_DIR     := src
@@ -29,6 +30,7 @@ DEPS        := $(OBJS:.o=.d)
 INCS        := ./include
 CC          := gcc
 CFLAGS      := -g -Wall -Wextra -Werror
+PTHREAD	:= -pthread
 CPPFLAGS    := $(addprefix -I,$(INCS)) -MMD -MP
 RM          := rm -rf
 DIR_DUP     = mkdir -p $(@D)
@@ -38,16 +40,28 @@ DIR_DUP     = mkdir -p $(@D)
 
 # Rules ----------------------------------------------------------------------->
 
+define total_files
+$(shell echo "$(SRCS)" | wc -w)
+endef
+
+define obj_files
+$(shell bash -c 'shopt -s nullglob && echo .build/*.o | wc -w')
+endef
+
+define percent
+$(shell echo $$(($(obj_files) * 100 / $(total_files))))
+endef
+
 all: banner $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -pthread
-	${info ${BOLD}   Done!   -> ${GREEN}$(NAME)${NO_COLOR}}
+	$(CC) $(OBJS) -o $(NAME) $(PTHREAD)
+	${info ${BOLD}[100%]	  Done!   ->  ${GREEN}$(NAME)${NO_COLOR}}
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-	${info ${BOLD} Compiling -> ${YELLOW}$@${NO_COLOR}}
+	${info ${BOLD}$(ECHO)	Compiling -> ${YELLOW}$@${NO_COLOR}}
 
 -include $(DEPS)
 
@@ -62,7 +76,7 @@ fclean: clean
 re:
 	$(MAKE) fclean
 	$(MAKE) all
-
+endif
 # Style ----------------------------------------------------------------------->
 
 RED		:= ${shell tput setaf 1}
@@ -87,7 +101,7 @@ ${info ▒▓▒░ ░  ░ ▒ ░░▒░▒░▓  ░ ▒░▓  ░░ �
 ${info ░▒ ░      ▒ ░▒░ ░ ▒ ░░ ░ ▒  ░  ░ ▒ ▒░ ░ ░▒  ░ ░  ░ ▒ ▒░ ░▒ ░      ▒ ░▒░ ░ ░ ░  ░  ░▒ ░ ▒░░ ░▒  ░ ░ }
 ${info ░░        ░  ░░ ░ ▒ ░  ░ ░   ░ ░ ░ ▒  ░  ░  ░  ░ ░ ░ ▒  ░░        ░  ░░ ░   ░     ░░   ░ ░  ░  ░   }
 ${info           ░  ░  ░ ░      ░  ░    ░ ░        ░      ░ ░            ░  ░  ░   ░  ░   ░           ░   }
-${info                                                                                                    }
+${info }
 ${info ${BOLD}${ITALIC}${YELLOW}                        🍝 I never thought philosophy would be so deadly 🍝}
 ${info ${NO_COLOR}}
 

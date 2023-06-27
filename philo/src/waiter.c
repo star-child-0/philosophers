@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:29:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/24 18:40:44 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 10:09:46 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	*waiter_routine(void *arg)
 	t_waiter	*waiter;
 
 	waiter = (t_waiter *)arg;
-	printf("%s [%d] waiter created%s\n", GREEN, waiter->alive -1, UNSET);
 	usleep(50);
 	return (NULL);
+	waiter = (void *)waiter;
 }
 
 int	waiter_create_thread(t_waiter *waiter)

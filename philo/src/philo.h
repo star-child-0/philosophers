@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/24 17:52:09 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 12:21:02 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define YELLOWBOLD "\033[1;33m"
 # define BLUE "\033[0;34m"
 # define BLUEBOLD "\033[1;34m"
+# define MAGENTA "\033[0;35m"
+# define MAGENTABOLD "\033[1;35m"
 # define UNSET "\033[0m"
 # define BOLD "\033[1m"
 # define UNDERLINE "\033[4m"
@@ -59,42 +61,55 @@ typedef struct s_waiter
 	pthread_mutex_t	philo_mx;
 }t_waiter;
 
+typedef struct s_menu
+{
+	pthread_mutex_t	*death_mx;
+	pthread_mutex_t	*time_mx;
+	pthread_mutex_t	*print_mx;
+	pthread_mutex_t	*eat_mx;
+	pthread_mutex_t	*last_eat_mx;
+}t_menu;
+
 typedef struct s_philo
 {
 	int			id;
 	int			times_eaten;
-	int			last_eat;
+	time_t		last_eat;
+	time_t		time_delay;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
 	t_waiter	*waiter;
+	t_menu		*menu;
 	pthread_t	thread;
 }t_philo;
 
 // UTILS ---------------------------------------------------------------------->
-int					arg_check(int ac, char **av);
-int					ft_atoi(char *str);
-void				bombfreeall(t_philo **philos, t_fork **forks,
-						t_waiter *waiter);
+int			arg_check(int ac, char **av);
+int			ft_atoi(char *str);
+void		bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter);
 
 // TIME ----------------------------------------------------------------------->
-unsigned long long	ft_gettime(void);
-int					timer(unsigned long long time, int last_eat);
+time_t		ft_gettime(void);
+time_t		ft_timer(time_t last_time, pthread_mutex_t *time_mx);
 
 // THREADS -------------------------------------------------------------------->
-void				threads_create(t_waiter *waiter, t_philo **philos);
-void				threads_end(t_waiter *waiter, t_philo **philos);
+void		threads_create(t_waiter *waiter, t_philo **philos);
+void		threads_join(t_waiter *waiter, t_philo **philos);
 
 // PHILO ---------------------------------------------------------------------->
-int					philo_init(t_waiter *waiter, t_philo **philos,
-						t_fork **forks);
-int					philo_create_thread(int i, t_philo **philo);
+int			philo_create_thread(int i, t_philo **philo);
+void		philo_print(t_philo *philo, char *color, char *action);
+int			philo_init(t_waiter *waiter, t_philo **philos, t_menu **menu, t_fork **forks);
+
+// PHILO ROUTINE -------------------------------------------------------------->
+void		*philo_routine(void *arg);
 
 // TABLE ---------------------------------------------------------------------->
-void				table_init(t_table *table, char **argv);
-void				print_table(t_table *table);
+void		table_init(t_table *table, char **argv);
+void		print_table(t_table *table);
 
 // WAITER --------------------------------------------------------------------->
-int					waiter_init(t_waiter *waiter, t_table table);
-int					waiter_create_thread(t_waiter *waiter);
+int			waiter_init(t_waiter *waiter, t_table table);
+int			waiter_create_thread(t_waiter *waiter);
 
 #endif

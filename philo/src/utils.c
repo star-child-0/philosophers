@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/24 17:12:22 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 09:45:01 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ int	arg_check(int ac, char **av)
 				, RED, UNSET));
 	i = 1;
 	while (++i < ac)
+	{
 		if (ft_atoi(av[i]) < 0)
-			return (printf("%sError: Each argument must be a positive number%s\n"
-					, RED, UNSET));
+		{
+			printf("%sError: Each argument must be a positive number", RED);
+			printf("within the range of INT_MIN and INT_MAX%s\n", UNSET);
+			return (1);
+		}
+	}
+
 	return (0);
 }
 
@@ -67,7 +73,20 @@ void	bombfreeall(t_philo **philos, t_fork **forks, t_waiter *waiter)
 
 	i = -1;
 	while (++i < waiter->table.philo_count)
+	{
 		pthread_mutex_destroy(&(*forks)[i].fork_mx);
+		pthread_mutex_destroy((*philos)[i].menu->death_mx);
+		free((*philos)[i].menu->death_mx);
+		pthread_mutex_destroy((*philos)[i].menu->time_mx);
+		free((*philos)[i].menu->time_mx);
+		pthread_mutex_destroy((*philos)[i].menu->print_mx);
+		free((*philos)[i].menu->print_mx);
+		pthread_mutex_destroy((*philos)[i].menu->eat_mx);
+		free((*philos)[i].menu->eat_mx);
+		pthread_mutex_destroy((*philos)[i].menu->last_eat_mx);
+		free((*philos)[i].menu->last_eat_mx);
+		free((*philos)[i].menu);
+	}
 	pthread_mutex_destroy(&waiter->print_mx);
 	pthread_mutex_destroy(&waiter->death_mx);
 	pthread_mutex_destroy(&waiter->philo_mx);

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 15:54:03 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/24 18:40:06 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/27 12:58:07 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,22 @@ void	threads_create(t_waiter *waiter, t_philo **philos)
 {
 	int	i;
 
-	i = -1;
-	while (++i < waiter->table.philo_count)
+	i = 0;
+	while (i < waiter->table.philo_count)
+	{
 		philo_create_thread(i, philos);
+		i++;
+	}
 	waiter_create_thread(waiter);
-	sleep(1);
+	sleep(2);
 }
 
-void	threads_end(t_waiter *waiter, t_philo **philos)
+void	threads_join(t_waiter *waiter, t_philo **philos)
 {
 	int	i;
 
 	i = -1;
+	pthread_join(waiter->waiter, NULL);
 	while (++i < waiter->table.philo_count)
 		pthread_join((*philos)[i].thread, NULL);
-	pthread_join(waiter->waiter, NULL);
 }
