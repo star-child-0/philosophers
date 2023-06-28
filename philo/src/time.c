@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 17:11:22 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/27 19:28:39 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:24:22 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 */
 time_t	ft_gettime(void)
 {
-	struct timeval		time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
@@ -29,7 +29,7 @@ time_t	ft_gettime(void)
 /*!
 * @brief
 	Get the time elapsed since the last timestamp.
-* @param last_eat
+* @param start_time
 	The last eat timestamp.
 * @param time_mx
 	The mutex to lock the time.

@@ -6,51 +6,36 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:29:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/27 19:35:13 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/28 21:26:28 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	*waiter_routine(void *arg)
+void	*waiter_routine(void *arg)
 {
-	t_waiter	*waiter;
+	int		i;
+	time_t	die_time;
+	time_t	diff;
+	t_philo	*waiter;
 
-	waiter = (t_waiter *)arg;
-	usleep(50);
-
-	while (true)
+	waiter = (t_philo *)arg;
+	i = -1;
+	die_time = waiter->table->time_to_die;
+	while (++i)
 	{
-		if (!waiter->alive)
+		if (i == waiter->table->philo_count)
+			i = 0;
+		pthread_mutex_lock(waiter[i].menu->last_eat_mx);
+		diff = ft_timer(waiter[i].last_eat, waiter[i].menu->time_mx);
+		pthread_mutex_unlock(waiter[i].menu->last_eat_mx);
+		if (diff > die_time)
 		{
-			pthread_mutex_lock(waiter->menu->print_mx);
-			printf("%sWaiter is dead%s\n", REDBOLD, UNSET);
+			philo_dead(&waiter[i]);
 			break ;
 		}
+		if (philo_satiated(&waiter[i]))
+			break ;
 	}
 	return (NULL);
-	waiter = (void *)waiter;
-}
-
-int	waiter_create_thread(t_waiter *waiter)
-{
-	if (pthread_create(&waiter->waiter, NULL, waiter_routine, waiter))
-		return (0);
-	return (1);
-}
-
-int	waiter_init(t_waiter *waiter, t_table table, t_menu *menu)
-{
-	waiter->table = table;
-	waiter->alive = true;
-	waiter->menu = menu;
-	if (pthread_mutex_init(&waiter->philo_mx, NULL))
-		return (0);
-	return (1);
-}
-
-void	waiter_free(t_waiter *waiter)
-{
-	pthread_mutex_destroy(&waiter->philo_mx);
-	free(waiter);
 }
