@@ -1,0 +1,3 @@
+[submodule "hypatia"]
+	path = hypatia
+	url = git@github.com:star-child-0/Hypatia-philosopher-tester.git

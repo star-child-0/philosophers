@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/28 20:25:05 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:46:10 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ int	ft_atoi(char *str)
 
 void	bombfreeall(t_philo *philo)
 {
+	// t_table	*table;
+
+	// table = philo->table;
 	forks_free(philo);
 	menu_free(philo->menu);
-	free(philo->table);
 	free(philo);
+	// free(table);
 	return ;
+	(void)philo;
 }

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:07:17 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/28 20:57:04 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:59:40 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ int	philo_create_thread(int i, t_philo **philo)
 
 bool	philo_alive_check(t_philo *philo)
 {
-	if (philo->times_eaten == philo->table->times_to_eat
-		|| !philo->alive)
-		return (false);
-	if (philo->table->time_to_eat < philo->last_eat - philo->time_delay)
+	pthread_mutex_lock(philo->menu->death_mx);
+	if (!philo->menu->alive)
 	{
-		philo_dead(philo);
+		pthread_mutex_unlock(philo->menu->death_mx);
 		return (false);
 	}
+	pthread_mutex_unlock(philo->menu->death_mx);
 	return (true);
 }
 

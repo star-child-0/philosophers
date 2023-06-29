@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:56:15 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/27 17:58:52 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:39:37 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_menu	*menu_init(t_menu *menu)
 	menu->print_mx = malloc(sizeof(pthread_mutex_t));
 	menu->eat_mx = malloc(sizeof(pthread_mutex_t));
 	menu->last_eat_mx = malloc(sizeof(pthread_mutex_t));
+	menu->alive = true;
 	pthread_mutex_init(menu->death_mx, NULL);
 	pthread_mutex_init(menu->time_mx, NULL);
 	pthread_mutex_init(menu->print_mx, NULL);

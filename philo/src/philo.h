@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/28 21:19:31 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:32:21 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_table
 typedef struct s_menu
 {
 	pthread_mutex_t	*death_mx;
+	bool			alive;
 	pthread_mutex_t	*time_mx;
 	pthread_mutex_t	*print_mx;
 	pthread_mutex_t	*eat_mx;
@@ -100,7 +101,7 @@ bool		philo_satiated(t_philo *philo);
 
 // PHILO ROUTINE -------------------------------------------------------------->
 void		*philo_routine(void *arg);
-void		philo_dead(t_philo *philo);
+bool		philo_dead(t_philo *philo);
 
 // MENU ----------------------------------------------------------------------->
 t_menu		*menu_init(t_menu *menu);

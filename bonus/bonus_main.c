@@ -6,13 +6,13 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 21:01:20 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/28 21:07:18 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/28 21:44:19 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_philo.h"
 
-int main(void)
+int	main(void)
 {
 	return (0);
 }

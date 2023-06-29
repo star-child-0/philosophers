@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:29:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/28 21:26:28 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:37:04 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*waiter_routine(void *arg)
 	waiter = (t_philo *)arg;
 	i = -1;
 	die_time = waiter->table->time_to_die;
-	while (++i)
+	while (++i || true)
 	{
 		if (i == waiter->table->philo_count)
 			i = 0;
@@ -31,7 +31,7 @@ void	*waiter_routine(void *arg)
 		pthread_mutex_unlock(waiter[i].menu->last_eat_mx);
 		if (diff > die_time)
 		{
-			philo_dead(&waiter[i]);
+			waiter[i].menu->alive = philo_dead(&waiter[i]);
 			break ;
 		}
 		if (philo_satiated(&waiter[i]))
