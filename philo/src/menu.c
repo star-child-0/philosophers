@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:56:15 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/29 20:39:37 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/30 21:38:41 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 t_menu	*menu_init(t_menu *menu)
 {
-	menu = malloc(sizeof(t_menu));
-	menu->death_mx = malloc(sizeof(pthread_mutex_t));
-	menu->time_mx = malloc(sizeof(pthread_mutex_t));
-	menu->print_mx = malloc(sizeof(pthread_mutex_t));
-	menu->eat_mx = malloc(sizeof(pthread_mutex_t));
-	menu->last_eat_mx = malloc(sizeof(pthread_mutex_t));
-	menu->alive = true;
+	menu = malloc(sizeof(t_menu) * 1);
+	menu->death_mx = malloc(sizeof(pthread_mutex_t) * 1);
+	menu->print_mx = malloc(sizeof(pthread_mutex_t) * 1);
+	menu->time_mx = malloc(sizeof(pthread_mutex_t) * 1);
+	menu->eat_mx = malloc(sizeof(pthread_mutex_t) * 1);
+	menu->last_eat_mx = malloc(sizeof(pthread_mutex_t) * 1);
 	pthread_mutex_init(menu->death_mx, NULL);
-	pthread_mutex_init(menu->time_mx, NULL);
 	pthread_mutex_init(menu->print_mx, NULL);
+	pthread_mutex_init(menu->time_mx, NULL);
 	pthread_mutex_init(menu->eat_mx, NULL);
 	pthread_mutex_init(menu->last_eat_mx, NULL);
 	return (menu);

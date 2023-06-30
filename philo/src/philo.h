@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/29 20:32:21 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/30 21:44:17 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,43 +40,38 @@
 # define TILLDEATH -1
 
 // STRUCTURES ----------------------------------------------------------------->
-typedef struct s_fork
+typedef struct s_data
 {
-	pthread_mutex_t	fork_mx;
-}t_fork;
+	int				philo_count;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_to_eat;
+	pthread_mutex_t	*forks;
+}	t_table;
 
-typedef struct s_table
-{
-	int	philo_count;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	times_to_eat;
-}t_table;
-
-typedef struct s_menu
+typedef struct s_mutex
 {
 	pthread_mutex_t	*death_mx;
-	bool			alive;
 	pthread_mutex_t	*time_mx;
 	pthread_mutex_t	*print_mx;
 	pthread_mutex_t	*eat_mx;
 	pthread_mutex_t	*last_eat_mx;
-}t_menu;
+}	t_menu;
 
 typedef struct s_philo
 {
 	int			id;
-	int			times_eaten;
-	time_t		last_eat;
+	int			left_fork;
+	int			right_fork;
+	int			left_to_eat;
+	bool		*alive;
+	time_t		last_eat_mx;
 	time_t		time_delay;
-	bool		alive;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
-	t_table		*table;
 	t_menu		*menu;
+	t_table		*table;
 	pthread_t	thread;
-}t_philo;
+}	t_philo;
 
 // UTILS ---------------------------------------------------------------------->
 int			arg_check(int ac, char **av);
@@ -88,34 +83,30 @@ time_t		ft_gettime(void);
 time_t		ft_timer(time_t start_time, pthread_mutex_t *time_mx);
 
 // THREADS -------------------------------------------------------------------->
-void		threads_create(t_philo *philo);
-void		threads_join(t_philo *philo);
+void		threads_init(t_philo *philo);
 
 // PHILO ---------------------------------------------------------------------->
+t_philo		*philo_init(t_table *table, t_menu *menu, char **av);
+
 int			philo_create_thread(int i, t_philo **philo);
 void		philo_print(t_philo *philo, char *color, char *action);
-int			philo_init(t_philo **philo, t_menu *menu, t_fork **forks,
-				t_table *table);
-bool		philo_alive_check(t_philo *philo);
-bool		philo_satiated(t_philo *philo);
+bool		philo_alive(t_philo *philo);
+int			philo_satiated(t_philo *philo);
 
 // PHILO ROUTINE -------------------------------------------------------------->
 void		*philo_routine(void *arg);
-bool		philo_dead(t_philo *philo);
+void		philo_dead(t_philo *philo);
 
 // MENU ----------------------------------------------------------------------->
 t_menu		*menu_init(t_menu *menu);
 void		menu_free(t_menu *menu);
 
-// FORKS ---------------------------------------------------------------------->
-void		forks_init(t_fork **forks, t_table *table);
-void		forks_free(t_philo *philo);
-
 // TABLE ---------------------------------------------------------------------->
-void		table_init(t_table *table, char **argv);
+t_table		*table_init(char **av);
 void		table_print(t_table *table);
 
 // WAITER --------------------------------------------------------------------->
+void		waiter_init(t_philo *philo);
 void		*waiter_routine(void *arg);
 
 #endif

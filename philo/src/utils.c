@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/29 20:46:10 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/06/30 21:38:38 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ int	arg_check(int ac, char **av)
 	return (0);
 }
 
+bool	ft_isdigit(int c)
+{
+	if ((c >= '0' && c <= '9') || (c == '+' || c == '-'))
+		return (true);
+	return (false);
+}
+
 int	ft_atoi(char *str)
 {
 	int	i;
@@ -68,13 +75,23 @@ int	ft_atoi(char *str)
 
 void	bombfreeall(t_philo *philo)
 {
-	// t_table	*table;
+	int	i;
 
-	// table = philo->table;
-	forks_free(philo);
-	menu_free(philo->menu);
+	i = -1;
+	while (++i < philo->table->philo_count)
+		pthread_mutex_destroy(&philo->table->forks[i]);
+	pthread_mutex_destroy(philo->menu->death_mx);
+	pthread_mutex_destroy(philo->menu->print_mx);
+	pthread_mutex_destroy(philo->menu->time_mx);
+	pthread_mutex_destroy(philo->menu->eat_mx);
+	pthread_mutex_destroy(philo->menu->last_eat_mx);
+	free(philo->table->forks);
+	free(philo->menu->death_mx);
+	free(philo->menu->print_mx);
+	free(philo->menu->time_mx);
+	free(philo->menu->eat_mx);
+	free(philo->menu->last_eat_mx);
+	free(philo->menu);
+	free(philo->table);
 	free(philo);
-	// free(table);
-	return ;
-	(void)philo;
 }

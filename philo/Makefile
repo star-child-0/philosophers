@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/28 21:41:49 by anvannin         ###   ########.fr        #
+#    Updated: 2023/06/30 21:35:05 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRCS		:=	main.c \
 			philo_routine.c \
 			waiter.c \
 			menu.c \
-			forks.c \
 
 SRC_DIR     := src
 SRCS        := $(SRCS:%=$(SRC_DIR)/%)
