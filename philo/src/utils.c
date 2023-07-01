@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/30 21:38:38 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/01 16:34:22 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ int	arg_check(int ac, char **av)
 		printf("Example: ./philo 4 410 200 200 [5]%s\n", UNSET);
 		return (1);
 	}
-	if (ft_atoi(av[1]) < 2)
-		return (printf("%sError: There must be at least 2 philosophers%s\n"
-				, RED, UNSET));
 	i = 1;
 	while (++i < ac)
 	{

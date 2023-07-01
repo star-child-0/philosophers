@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/30 21:44:17 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/01 17:42:24 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef struct s_philo
 	int			right_fork;
 	int			left_to_eat;
 	bool		*alive;
-	time_t		last_eat_mx;
-	time_t		time_delay;
+	time_t		last_eat;
+	time_t		simulation_start;
 	t_menu		*menu;
 	t_table		*table;
 	pthread_t	thread;
@@ -95,7 +95,7 @@ int			philo_satiated(t_philo *philo);
 
 // PHILO ROUTINE -------------------------------------------------------------->
 void		*philo_routine(void *arg);
-void		philo_dead(t_philo *philo);
+void		philo_die(t_philo *philo);
 
 // MENU ----------------------------------------------------------------------->
 t_menu		*menu_init(t_menu *menu);

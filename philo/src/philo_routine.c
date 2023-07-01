@@ -6,17 +6,22 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:28:30 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/30 21:43:43 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/01 17:43:25 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	philo_sleep_and_think(t_philo *philo)
+static bool	philo_sleep_and_think(t_philo *philo)
 {
+	if (!philo_alive(philo))
+		return (false);
 	philo_print(philo, GREEN, "is sleeping");
 	usleep(philo->table->time_to_sleep);
+	if (!philo_alive(philo))
+		return (false);
 	philo_print(philo, BLUE, "is thinking");
+	return (true);
 }
 
 static void	philo_take_forks(t_philo *philo)
@@ -32,29 +37,34 @@ static void	philo_take_forks(t_philo *philo)
 	philo_print(philo, YELLOW, "has taken the right fork");
 }
 
-int	philo_eat(t_philo *philo)
+bool	philo_eat(t_philo *philo)
 {
-	if (philo->left_fork == philo->right_fork)
-	{
-		pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
-		philo_print(philo, YELLOW, "has taken the right fork");
-		pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
-		return (1);
-	}
 	philo_take_forks(philo);
 	philo_print(philo, MAGENTA, "is eating");
 	pthread_mutex_lock(philo->menu->last_eat_mx);
-	philo->last_eat_mx = ft_gettime();
+	philo->last_eat = ft_gettime();
 	pthread_mutex_unlock(philo->menu->last_eat_mx);
 	usleep(philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->table->forks[philo->left_fork]);
 	pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
 	if (philo->table->times_to_eat > 0)
 		return (philo_satiated(philo));
-	return (0);
+	return (true);
 }
 
-void	philo_dead(t_philo *philo)
+bool	philo_solo(t_philo *philo)
+{
+	if (philo->left_fork == philo->right_fork)
+	{
+		pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
+		philo_print(philo, YELLOW, "has taken the right fork");
+		pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
+		return (true);
+	}
+	return (false);
+}
+
+void	philo_die(t_philo *philo)
 {
 	pthread_mutex_lock(philo->menu->death_mx);
 	*philo->alive = false;
@@ -70,11 +80,14 @@ void	*philo_routine(void *arg)
 	if (!philo->id % 2)
 		usleep(50);
 	usleep(50);
-	while (!philo_alive(philo))
+	while (philo_alive(philo))
 	{
-		if (philo_eat(philo))
+		if (philo_solo(philo))
 			break ;
-		philo_sleep_and_think(philo);
+		if (!philo_eat(philo))
+			break ;
+		if (!philo_sleep_and_think(philo))
+			break ;
 	}
 	return (NULL);
 }
