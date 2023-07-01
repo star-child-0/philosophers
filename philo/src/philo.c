@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:07:17 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/01 17:41:01 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:27:43 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ t_philo	*philo_init(t_table *table, t_menu *menu, char **av)
 	while (++i < table->philo_count)
 	{
 		philo[i].right_fork = i;
-		if (i == table->philo_count - 1)
-			philo[i].left_fork = 0;
+		if (i == 0)
+			philo[i].left_fork = table->philo_count - 1;
 		else
-			philo[i].left_fork = i + 1;
+			philo[i].left_fork = i - 1;
 		philo[i].id = i;
 		philo[i].table = table;
 		philo[i].menu = menu;

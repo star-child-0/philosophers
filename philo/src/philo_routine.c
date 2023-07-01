@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:28:30 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/01 17:43:25 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:40:18 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,20 @@ static void	philo_take_forks(t_philo *philo)
 
 	left_fork = &philo->table->forks[philo->left_fork];
 	right_fork = &philo->table->forks[philo->right_fork];
-	pthread_mutex_lock(left_fork);
-	philo_print(philo, YELLOW, "has taken the left fork");
-	pthread_mutex_lock(right_fork);
-	philo_print(philo, YELLOW, "has taken the right fork");
+	if (philo->left_fork % 2)
+	{
+		pthread_mutex_lock(left_fork);
+		philo_print(philo, YELLOW, "has taken the left fork");
+		pthread_mutex_lock(right_fork);
+		philo_print(philo, YELLOW, "has taken the right fork");
+	}
+	else
+	{
+		pthread_mutex_lock(right_fork);
+		philo_print(philo, YELLOW, "has taken the right fork");
+		pthread_mutex_lock(left_fork);
+		philo_print(philo, YELLOW, "has taken the left fork");
+	}
 }
 
 bool	philo_eat(t_philo *philo)
@@ -78,8 +88,7 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (!philo->id % 2)
-		usleep(50);
-	usleep(50);
+		usleep(1000);
 	while (philo_alive(philo))
 	{
 		if (philo_solo(philo))
