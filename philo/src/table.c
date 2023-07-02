@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:08:31 by anvannin          #+#    #+#             */
-/*   Updated: 2023/06/30 21:25:32 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:01:55 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ t_table	*table_init(char **av)
 	if (av[5] && ft_atoi(av[5]) > 0)
 		table->times_to_eat = ft_atoi(av[5]);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_count);
+	table_print(table);
 	return (table);
 }

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:28:30 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/01 18:40:18 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:11:14 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static void	philo_take_forks(t_philo *philo)
 
 	left_fork = &philo->table->forks[philo->left_fork];
 	right_fork = &philo->table->forks[philo->right_fork];
-	if (philo->left_fork % 2)
+	if (philo->id % 2)
+		usleep(1000);
+	if (left_fork < right_fork)
 	{
 		pthread_mutex_lock(left_fork);
 		philo_print(philo, YELLOW, "has taken the left fork");
@@ -57,9 +59,7 @@ bool	philo_eat(t_philo *philo)
 	usleep(philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->table->forks[philo->left_fork]);
 	pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
-	if (philo->table->times_to_eat > 0)
-		return (philo_satiated(philo));
-	return (true);
+	return (!philo_satiated(philo, "philo"));
 }
 
 bool	philo_solo(t_philo *philo)
@@ -78,6 +78,7 @@ void	philo_die(t_philo *philo)
 {
 	pthread_mutex_lock(philo->menu->death_mx);
 	*philo->alive = false;
+	printf("%d\n", philo->left_to_eat);
 	philo_print(philo, RED, "has died");
 	pthread_mutex_unlock(philo->menu->death_mx);
 }
@@ -87,7 +88,7 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (!philo->id % 2)
+	if (philo->id % 2)
 		usleep(1000);
 	while (philo_alive(philo))
 	{

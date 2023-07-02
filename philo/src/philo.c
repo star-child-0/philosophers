@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:07:17 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/01 18:27:43 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:11:44 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	philo_alive(t_philo *philo)
 	return (true);
 }
 
-int	philo_satiated(t_philo *philo)
+int	philo_satiated(t_philo *philo, char *who)
 {
 	pthread_mutex_lock(philo->menu->eat_mx);
 	if (philo->left_to_eat == TILLDEATH)
@@ -48,13 +48,32 @@ int	philo_satiated(t_philo *philo)
 		pthread_mutex_unlock(philo->menu->eat_mx);
 		return (false);
 	}
-	if (--philo->left_to_eat == 0)
+	if (!ft_strncmp(who, "philo", 5))
+		philo->left_to_eat -= 1;
+	if (philo->left_to_eat == 0)
 	{
-		philo_print(philo, YELLOW, "is full!");
+		philo_print(philo, CYAN, "is full");
 		pthread_mutex_unlock(philo->menu->eat_mx);
 		return (true);
 	}
 	pthread_mutex_unlock(philo->menu->eat_mx);
+	return (false);
+}
+
+bool	philo_starved(t_philo *philo, int i)
+{
+	time_t	diff;
+	time_t	die_time;
+
+	die_time = philo->table->time_to_die / 1000;
+	pthread_mutex_lock(philo[i].menu->last_eat_mx);
+	diff = ft_timer(philo[i].last_eat, philo[i].menu->time_mx);
+	pthread_mutex_unlock(philo[i].menu->last_eat_mx);
+	if (diff > die_time)
+	{
+		philo_die(&philo[i]);
+		return (true);
+	}
 	return (false);
 }
 
@@ -78,10 +97,10 @@ t_philo	*philo_init(t_table *table, t_menu *menu, char **av)
 		philo[i].id = i;
 		philo[i].table = table;
 		philo[i].menu = menu;
-		if (philo[i].table->times_to_eat == true)
-			philo[i].left_to_eat = ft_atoi(av[5]);
-		else
+		if (philo[i].table->times_to_eat == TILLDEATH)
 			philo[i].left_to_eat = TILLDEATH;
+		else
+			philo[i].left_to_eat = ft_atoi(av[5]);
 	}
 	return (philo);
 }

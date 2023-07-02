@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/01 17:42:24 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:08:58 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,16 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-// COLORS --------------------------------------------------------------------->
+// COLOR MACROS --------------------------------------------------------------->
 # define RED "\033[0;31m"
-# define REDBOLD "\033[1;31m"
 # define GREEN "\033[0;32m"
-# define GREENBOLD "\033[1;32m"
 # define YELLOW "\033[0;33m"
-# define YELLOWBOLD "\033[1;33m"
 # define BLUE "\033[0;34m"
 # define BLUEBOLD "\033[1;34m"
 # define MAGENTA "\033[0;35m"
-# define MAGENTABOLD "\033[1;35m"
+# define CYAN "\033[0;36m"
 # define UNSET "\033[0m"
 # define BOLD "\033[1m"
-# define UNDERLINE "\033[4m"
-# define ITALIC "\033[3m"
 
 // PROJECT MACROS ------------------------------------------------------------->
 # define TILLDEATH -1
@@ -75,7 +70,9 @@ typedef struct s_philo
 
 // UTILS ---------------------------------------------------------------------->
 int			arg_check(int ac, char **av);
+bool		ft_isdigit(int c);
 int			ft_atoi(char *str);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		bombfreeall(t_philo *philo);
 
 // TIME ----------------------------------------------------------------------->
@@ -87,11 +84,11 @@ void		threads_init(t_philo *philo);
 
 // PHILO ---------------------------------------------------------------------->
 t_philo		*philo_init(t_table *table, t_menu *menu, char **av);
-
 int			philo_create_thread(int i, t_philo **philo);
 void		philo_print(t_philo *philo, char *color, char *action);
 bool		philo_alive(t_philo *philo);
-int			philo_satiated(t_philo *philo);
+int		philo_satiated(t_philo *philo, char *who);
+bool		philo_starved(t_philo *philo, int i);
 
 // PHILO ROUTINE -------------------------------------------------------------->
 void		*philo_routine(void *arg);
