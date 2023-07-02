@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:28:30 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 16:11:14 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:17:18 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ static void	philo_take_forks(t_philo *philo)
 	}
 }
 
-bool	philo_eat(t_philo *philo)
+static bool	philo_eat(t_philo *philo)
 {
+	if (!philo_alive(philo))
+		return (false);
 	philo_take_forks(philo);
 	philo_print(philo, MAGENTA, "is eating");
 	pthread_mutex_lock(philo->menu->last_eat_mx);
@@ -62,24 +64,12 @@ bool	philo_eat(t_philo *philo)
 	return (!philo_satiated(philo, "philo"));
 }
 
-bool	philo_solo(t_philo *philo)
-{
-	if (philo->left_fork == philo->right_fork)
-	{
-		pthread_mutex_lock(&philo->table->forks[philo->right_fork]);
-		philo_print(philo, YELLOW, "has taken the right fork");
-		pthread_mutex_unlock(&philo->table->forks[philo->right_fork]);
-		return (true);
-	}
-	return (false);
-}
-
 void	philo_die(t_philo *philo)
 {
 	pthread_mutex_lock(philo->menu->death_mx);
+	printf("%s[%ld] %d %s%s\n", RED, ft_timer(philo->simulation_start,
+			(*philo).menu->time_mx), philo->id + 1, "died", UNSET);
 	*philo->alive = false;
-	printf("%d\n", philo->left_to_eat);
-	philo_print(philo, RED, "has died");
 	pthread_mutex_unlock(philo->menu->death_mx);
 }
 

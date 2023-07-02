@@ -6,7 +6,7 @@
 #    By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 18:36:34 by anvannin          #+#    #+#              #
-#    Updated: 2023/06/30 21:35:05 by anvannin         ###   ########.fr        #
+#    Updated: 2023/07/02 17:43:24 by anvannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		:=	main.c \
 			table.c \
 			philo.c \
 			philo_routine.c \
+			philo_status.c \
 			waiter.c \
 			menu.c \
 

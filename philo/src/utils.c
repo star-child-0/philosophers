@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:47:51 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 16:07:18 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:04:38 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	arg_check(int ac, char **av)
 		printf("Example: ./philo 4 410 200 200 [5]%s\n", UNSET);
 		return (1);
 	}
-	i = 1;
+	i = 0;
 	while (++i < ac)
 	{
 		if (ft_atoi(av[i]) <= 0)

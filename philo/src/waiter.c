@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 19:29:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 16:12:03 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:45:46 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ void	*waiter_routine(void *arg)
 	{
 		if (i == philo->table->philo_count)
 			i = 0;
-		if (philo_starved(philo, i) || !philo_satiated(philo, "waiter"))
+		if (philo_starved(philo, i) || philo_satiated(philo, "waiter"))
 			break ;
 		i++;
 	}
 	return (NULL);
-	(void)philo;
-	i++;
 }
 
 void	waiter_init(t_philo *philo)

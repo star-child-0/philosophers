@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 16:08:58 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:30:41 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,12 @@ void		threads_init(t_philo *philo);
 t_philo		*philo_init(t_table *table, t_menu *menu, char **av);
 int			philo_create_thread(int i, t_philo **philo);
 void		philo_print(t_philo *philo, char *color, char *action);
+
+// PHILO STATUS --------------------------------------------------------------->
 bool		philo_alive(t_philo *philo);
-int		philo_satiated(t_philo *philo, char *who);
+bool		philo_satiated(t_philo *philo, char *who);
 bool		philo_starved(t_philo *philo, int i);
+bool		philo_solo(t_philo *philo);
 
 // PHILO ROUTINE -------------------------------------------------------------->
 void		*philo_routine(void *arg);
