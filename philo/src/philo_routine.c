@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:28:30 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 17:17:18 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:06:49 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,16 @@ static bool	philo_eat(t_philo *philo)
 
 void	philo_die(t_philo *philo)
 {
+	bool	alive;
+
 	pthread_mutex_lock(philo->menu->death_mx);
-	printf("%s[%ld] %d %s%s\n", RED, ft_timer(philo->simulation_start,
-			(*philo).menu->time_mx), philo->id + 1, "died", UNSET);
+	pthread_mutex_lock(philo->menu->print_mx);
+	alive = *philo->alive;
+	if (alive)
+		printf("%s[%ld] %d %s%s\n", RED, ft_timer(philo->simulation_start,
+				(*philo).menu->time_mx), philo->id + 1, "died", UNSET);
 	*philo->alive = false;
+	pthread_mutex_unlock(philo->menu->print_mx);
 	pthread_mutex_unlock(philo->menu->death_mx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:41:42 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 17:30:41 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:11:07 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define TILLDEATH -1
 
 // STRUCTURES ----------------------------------------------------------------->
-typedef struct s_data
+typedef struct s_table
 {
 	int				philo_count;
 	int				time_to_die;
@@ -45,7 +45,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 }	t_table;
 
-typedef struct s_mutex
+typedef struct s_menu
 {
 	pthread_mutex_t	*death_mx;
 	pthread_mutex_t	*time_mx;
