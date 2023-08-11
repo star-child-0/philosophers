@@ -6,7 +6,7 @@
 /*   By: anvannin <anvannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:13:33 by anvannin          #+#    #+#             */
-/*   Updated: 2023/07/02 17:14:35 by anvannin         ###   ########.fr       */
+/*   Updated: 2023/08/11 09:07:08 by anvannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ bool	philo_satiated(t_philo *philo, char *who)
 		philo->left_to_eat -= 1;
 	if (philo->left_to_eat == 0)
 	{
-		philo_print(philo, CYAN, "is full");
+		if (!ft_strncmp(who, "philo", 5))
+			philo_print(philo, CYAN, "is full");
 		pthread_mutex_unlock(philo->menu->eat_mx);
 		return (true);
 	}
